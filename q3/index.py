@@ -3,26 +3,20 @@ import matplotlib.pyplot as plt
 from scipy.linalg import eigh
 from matplotlib.animation import FuncAnimation
 
-# Parameters based on roll number 2023101026
-k = 3  # spring constant
-m = 1  # mass
+k = 3  
+m = 1  
 
 def analytical_solution():
-    # The mass matrix is just the identity matrix for m=1
     M = np.eye(3)
     
-    # The stiffness matrix K for the system
-    # Each mass is connected to adjacent masses and the walls with springs of constant k
     K = np.array([
         [2*k, -k, 0],
         [-k, 2*k, -k],
         [0, -k, 2*k]
     ])
     
-    # Solve the eigenvalue problem: K·v = ω²·M·v
     eigenvalues, eigenvectors = eigh(K, M)
     
-    # The eigenvalues are ω² (squared angular frequencies)
     frequencies = np.sqrt(eigenvalues)
     
     return frequencies, eigenvectors
@@ -41,7 +35,6 @@ def plot_normal_modes(frequencies, eigenvectors):
         
     plt.tight_layout()
     plt.savefig('normal_modes.png')
-    # plt.show()
 
 def simulate_motion_euler(mode_index, duration=10, dt=0.01):
     frequencies, eigenvectors = analytical_solution()
@@ -96,14 +89,12 @@ def animate_normal_mode(mode_index):
     ax.set_ylim(-1.5, 1.5)
     ax.grid(True)
     
-    # Set axis labels
     ax.set_xlabel('Position')
     ax.set_ylabel('Displacement')
     
-    # Add a second y-axis on the right for time
     ax2 = ax.twinx()
     ax2.set_ylabel('Time (s)')
-    ax2.set_ylim(0, 10)  # Set to match duration
+    ax2.set_ylim(0, 10)  
     
     wall_left = -0.5
     wall_right = 4.5
@@ -129,11 +120,9 @@ def animate_normal_mode(mode_index):
     line4, = ax.plot([], [], 'k-', lw=1.5)
     spring_lines = [line1, line2, line3, line4]
     
-    # Create time text with better positioning and formatting
     time_text = ax.text(0.05, 0.95, '', transform=ax.transAxes, 
                         bbox=dict(facecolor='white', alpha=0.7))
     
-    # Add displacement markers
     displacement_labels = []
     for i in range(3):
         label = ax.text(0, 0, '', ha='center', va='bottom', color='blue')
@@ -155,7 +144,6 @@ def animate_normal_mode(mode_index):
         for j, block in enumerate(blocks):
             block.set_xy((x_pos[j]-block_width/2, -block_height/2))
             
-            # Update displacement label positions
             displacement_labels[j].set_position((x_pos[j], block_height/2))
             displacement_labels[j].set_text(f"{positions[i, j]:.2f}")
         
@@ -165,7 +153,6 @@ def animate_normal_mode(mode_index):
         line4.set_data([x_pos[2], wall_right], [0, 0])
         
         time_text.set_text(f'Time: {t[i]:.2f} s')
-        # Update time on the right y-axis
         ax2.set_ylim(0, 10)
         ax2.set_yticks([0, t[i], 10])
         ax2.set_yticklabels(['0', f'{t[i]:.2f}', '10'])
@@ -199,7 +186,7 @@ def euler_method_full_system(duration=10, dt=0.01):
     
     state = np.zeros((len(t), 6))
     
-    state[0, 0] = 1.0  # x1 = 1
+    state[0, 0] = 1.0  
     
     K = np.array([
         [2*k, -k, 0],

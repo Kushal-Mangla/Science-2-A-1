@@ -1,10 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-a = -2  # Initial position for part (i) and first person in part (ii)
-b = 12  # Initial position for second person in part (ii)
+a = -2  
+b = 12  
 
-# Number of simulations
 num_simulations = 10000
 
 def simulate_random_walk(initial_position, num_steps):
@@ -27,7 +26,7 @@ for i, N in enumerate(N_values_part1):
     returns = 0
     for _ in range(num_simulations):
         final_position = simulate_random_walk(a, N)[-1]
-        if final_position == 0:  # Check if returned to origin
+        if final_position == 0:  
             returns += 1
     
     return_probabilities[i] = returns / num_simulations
@@ -46,11 +45,9 @@ meeting_probabilities = np.zeros(len(N_values_part2))
 for i, N in enumerate(N_values_part2):
     meetings = 0
     for _ in range(num_simulations):
-        # Simulate random walks for both people
         person1_positions = simulate_random_walk(a, N)
         person2_positions = simulate_random_walk(b, N)
         
-        # Check if they end up at the same position after N steps
         if person1_positions[-1] == person2_positions[-1]:
             meetings += 1
     
