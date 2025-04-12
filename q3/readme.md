@@ -46,6 +46,154 @@ This is an eigenvalue problem where:
 - $\omega^2$ are the eigenvalues
 - $\mathbf{A}$ are the eigenvectors (normal modes)
 
+## Detailed Analytical Solution
+
+### 1. Derivation of Equations of Motion
+
+First, we derive the equations of motion using Newton's second law for each mass:
+
+**Mass 1:**
+$$m\ddot{x}_1 = -k(x_1 - 0) - k(x_1 - x_2) = -2kx_1 + kx_2$$
+
+**Mass 2:**
+$$m\ddot{x}_2 = -k(x_2 - x_1) - k(x_2 - x_3) = kx_1 - 2kx_2 + kx_3$$
+
+**Mass 3:**
+$$m\ddot{x}_3 = -k(x_3 - x_2) - k(x_3 - 0) = kx_2 - 2kx_3$$
+
+In matrix form:
+$$m\begin{pmatrix} \ddot{x}_1 \\ \ddot{x}_2 \\ \ddot{x}_3 \end{pmatrix} = k\begin{pmatrix} -2 & 1 & 0 \\ 1 & -2 & 1 \\ 0 & 1 & -2 \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix}$$
+
+### 2. Finding Normal Modes
+
+For normal modes, we assume solutions of the form:
+$$x_i(t) = A_i \cos(\omega t + \phi)$$
+
+Substituting this into our equations:
+$$-m\omega^2\begin{pmatrix} A_1 \\ A_2 \\ A_3 \end{pmatrix} = k\begin{pmatrix} -2 & 1 & 0 \\ 1 & -2 & 1 \\ 0 & -1 & -2 \end{pmatrix} \begin{pmatrix} A_1 \\ A_2 \\ A_3 \end{pmatrix}$$
+
+Dividing by $-m$:
+$$\omega^2\begin{pmatrix} A_1 \\ A_2 \\ A_3 \end{pmatrix} = \frac{k}{m}\begin{pmatrix} 2 & -1 & 0 \\ -1 & 2 & -1 \\ 0 & -1 & 2 \end{pmatrix} \begin{pmatrix} A_1 \\ A_2 \\ A_3 \end{pmatrix}$$
+
+Let $\omega_0^2 = \frac{k}{m}$ and $K = \begin{pmatrix} 2 & -1 & 0 \\ -1 & 2 & -1 \\ 0 & -1 & 2 \end{pmatrix}$
+
+We need to solve the eigenvalue problem:
+$$\det(K - \lambda I) = 0$$
+
+This gives us:
+$$\det\begin{pmatrix} 2-\lambda & -1 & 0 \\ -1 & 2-\lambda & -1 \\ 0 & -1 & 2-\lambda \end{pmatrix} = 0$$
+
+Expanding the determinant:
+$$(2-\lambda)[(2-\lambda)(2-\lambda) - (-1)(-1)] - (-1)[(-1)(2-\lambda) - (-1)(0)] + 0$$
+
+Simplifying:
+$$(2-\lambda)[(2-\lambda)^2 - 1] + (-1)[-(2-\lambda)]$$
+$$(2-\lambda)[(2-\lambda)^2 - 1] + (2-\lambda)$$
+$$(2-\lambda)[(2-\lambda)^2 - 1 + 1]$$
+$$(2-\lambda)(2-\lambda)^2 = 0$$
+
+This gives us eigenvalues:
+- $\lambda_1 = 2$
+- $\lambda_2 = 2 - \sqrt{2}$
+- $\lambda_3 = 2 + \sqrt{2}$
+
+The corresponding angular frequencies are:
+- $\omega_1 = \omega_0\sqrt{2}$
+- $\omega_2 = \omega_0\sqrt{2 - \sqrt{2}}$
+- $\omega_3 = \omega_0\sqrt{2 + \sqrt{2}}$
+
+For our system with $k = 3$ and $m = 1$, $\omega_0^2 = 3$, thus:
+- $\omega_1 = \sqrt{6} \approx 2.4495$ rad/s
+- $\omega_2 = \sqrt{3(2 - \sqrt{2})} \approx 1.3262$ rad/s
+- $\omega_3 = \sqrt{3(2 + \sqrt{2})} \approx 3.2016$ rad/s
+
+### 3. Finding Eigenvectors
+
+**For $\lambda_1 = 2$**, we solve:
+$$(K - 2I)\vec{A} = 0$$
+
+$$\begin{pmatrix} 0 & -1 & 0 \\ -1 & 0 & -1 \\ 0 & -1 & 0 \end{pmatrix} \begin{pmatrix} A_1 \\ A_2 \\ A_3 \end{pmatrix} = 0$$
+
+This gives us the system of equations:
+$$-A_2 = 0$$
+$$-A_1 - A_3 = 0$$
+$$-A_2 = 0$$
+
+From these equations, we get:
+$A_2 = 0$ and $A_1 = -A_3$
+
+So the eigenvector has the form:
+$$\vec{A}_1 = c_1\begin{pmatrix} 1 \\ 0 \\ -1 \end{pmatrix}$
+
+Normalizing (so that $|\vec{A}_1|^2 = 1$):
+$$c_1^2(1^2 + 0^2 + (-1)^2) = 1$$
+$$c_1^2 \cdot 2 = 1$$
+$$c_1 = \frac{1}{\sqrt{2}}$$
+
+Thus:
+$$\vec{A}_1 = \frac{1}{\sqrt{2}}\begin{pmatrix} 1 \\ 0 \\ -1 \end{pmatrix}$$
+
+**For $\lambda_2 = 2 - \sqrt{2}$**, we solve:
+$$(K - (2 - \sqrt{2})I)\vec{A} = 0$$
+
+$$\begin{pmatrix} \sqrt{2} & -1 & 0 \\ -1 & \sqrt{2} & -1 \\ 0 & -1 & \sqrt{2} \end{pmatrix} \begin{pmatrix} A_1 \\ A_2 \\ A_3 \end{pmatrix} = 0$$
+
+From this we get:
+$$\sqrt{2}A_1 - A_2 = 0$$
+$$-A_1 + \sqrt{2}A_2 - A_3 = 0$$
+$$-A_2 + \sqrt{2}A_3 = 0$$
+
+From the first equation: $A_2 = \sqrt{2}A_1$
+From the third equation: $A_2 = \sqrt{2}A_3$
+
+This means $A_1 = A_3$, and $A_2 = \sqrt{2}A_1$
+
+So the eigenvector has the form:
+$$\vec{A}_2 = c_2\begin{pmatrix} 1 \\ \sqrt{2} \\ 1 \end{pmatrix}$
+
+Normalizing:
+$$c_2^2(1^2 + (\sqrt{2})^2 + 1^2) = 1$$
+$$c_2^2(2 + 2) = 1$$
+$$c_2^2(4) = 1$$
+$$c_2 = \frac{1}{2}$$
+
+Thus:
+$$\vec{A}_2 = \frac{1}{2}\begin{pmatrix} 1 \\ \sqrt{2} \\ 1 \end{pmatrix} = \frac{1}{\sqrt{4}}\begin{pmatrix} 1 \\ \sqrt{2} \\ 1 \end{pmatrix}$$
+
+**For $\lambda_3 = 2 + \sqrt{2}$**, following similar steps, we get:
+$$\vec{A}_3 = \frac{1}{2}\begin{pmatrix} 1 \\ -\sqrt{2} \\ 1 \end{pmatrix} = \frac{1}{\sqrt{4}}\begin{pmatrix} 1 \\ -\sqrt{2} \\ 1 \end{pmatrix}$$
+
+### 4. Physical Interpretation of Normal Modes
+
+These three eigenvectors $\vec{A}_1$, $\vec{A}_2$, and $\vec{A}_3$ represent the three normal modes of the system:
+
+1. **First Normal Mode** ($\vec{A}_1$): 
+   - The first and third masses move in opposite directions with equal amplitude
+   - The middle mass remains stationary (node)
+   - This is the antisymmetric mode
+
+2. **Second Normal Mode** ($\vec{A}_2$): 
+   - All masses move in the same direction
+   - The middle mass has larger amplitude ($\sqrt{2}$ times the outer masses)
+   - This is the "in-phase" mode or "breathing mode"
+
+3. **Third Normal Mode** ($\vec{A}_3$): 
+   - The first and third masses move in the same direction
+   - The middle mass moves in the opposite direction with larger amplitude
+   - This is the out-of-phase mode
+
+### 5. Numerical Values for Our System
+
+Given our parameters ($k = 3$, $m = 1$), the actual frequencies are:
+
+| Mode | Analytical Formula | Normalized Eigenvector |
+|------|-------------------|--------------------|-----------------|
+| 1 | $\omega_0\sqrt{2}$ | $\frac{1}{\sqrt{2}}\begin{pmatrix} 1 \\ 0 \\ -1 \end{pmatrix}$ |
+| 2 | $\omega_0\sqrt{2 - \sqrt{2}}$ | $\frac{1}{2}\begin{pmatrix} 1 \\ \sqrt{2} \\ 1 \end{pmatrix}$ |
+| 3 | $\omega_0\sqrt{2 + \sqrt{2}}$ | $\frac{1}{2}\begin{pmatrix} 1 \\ -\sqrt{2} \\ 1 \end{pmatrix}$ |
+
+Note: The frequencies obtained from the SciPy `eigh` function might differ slightly due to numerical precision.
+
 ## Implementation Analysis
 
 ### Analytical Solution
